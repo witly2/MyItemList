@@ -23,6 +23,16 @@ exports.getListes = async (req, res, next) =>{
     try{
         const listes = await Liste.find()
             .sort({ createdAt: -1 });
+
+        if (!listes) {
+            const error = new Error('Aucune liste trouvé.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            listes: listes
+        });
     }
     catch (e) {
         next(e)

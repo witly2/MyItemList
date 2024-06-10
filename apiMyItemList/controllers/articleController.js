@@ -49,6 +49,27 @@ exports.getListeArticleByIdListe = async (req, res,next)=>{
     }
 }
 
+exports.deleteListeArticle = async (req,res,next) =>{
+    const listeArticleId = req.params.listeArticleId;
+
+    try{
+       const listeArticle = await ListeArticle.findById(listeArticleId);
+
+        if (!listeArticle) {
+            const error = new Error("La liste d'articles n'a pas été trouvée.");
+            error.statusCode = 404;
+            throw error;
+        }
+
+        await listeArticle.remove();
+        res.status(204).send();
+
+    }
+    catch (e) {
+        next(e)
+    }
+}
+
 async function getOrAddArticle(articleName){
     try {
         let article = await Article.findOne({name: articleName})
