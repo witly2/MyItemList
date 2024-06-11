@@ -1,13 +1,15 @@
 "use strict"
 
 const Article = require('../models/article');
-const Liste = require('../models/liste');
-const ListeArticle = require('../models/listArticle');
+const Liste = require('../models/tableau');
+const ListeArticle = require('../models/articleTableau');
 
 exports.addListe = async (req, res, next) =>{
     const name = req.body.name
     
     try {
+        
+        
         const liste = new Liste({name:name});
         const result = await liste.save();
         res.location("/liste/" + result.id);

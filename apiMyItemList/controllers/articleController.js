@@ -1,22 +1,22 @@
 "use strict"
 
 const Article = require('../models/article');
-const Liste = require('../models/liste');
-const ListeArticle = require('../models/listArticle');
+const Tableau = require('../models/tableau');
+const ArticleTableau = require('../models/articleTableau');
 
 exports.addListeArticle = async (req, res,next)=>{
     
-    const {name, unit_price, quantity, description, idListe} = req.body;
+    const {name, unit_price, quantity, description, idTableau} = req.body;
     
     try {
         const article = await getOrAddArticle(name);
 
-        const liste = await checkListExist(idListe);
+        const liste = await checkListExist(idTableau);
         
     
-        let listeArticle = new ListeArticle({
+        let listeArticle = new ArticleTableau({
             unit_price:unit_price,
-            liste: liste,
+            tableau: liste,
             quantity: quantity,
             description:description,
             article: article
@@ -34,19 +34,17 @@ exports.addListeArticle = async (req, res,next)=>{
 
 exports.getListeArticleByIdListe = async (req, res,next)=>{
     try{
-        const listeId = req.params.listeId;
+        const listeId = req.params.tableauId;
         const liste = await checkListExist(listeId);
 
-        const result = await ListeArticle
-            .find({ liste: liste })
+        const result = await ArticleTableau
+            .find({ tableau: liste })
             .populate({
-                name: 'Article', 
+                path: 'Article', 
             })
             .sort({ createdAt: -1 });
         
-        for(let a in ListeArticle){
-            a.art
-        }
+
 
     }
     catch (e) {
@@ -55,18 +53,18 @@ exports.getListeArticleByIdListe = async (req, res,next)=>{
 }
 
 exports.deleteListeArticle = async (req,res,next) =>{
-    const listeArticleId = req.params.listeArticleId;
+    const articleTableauId = req.params.listeArticleId;
 
     try{
-       const listeArticle = await ListeArticle.findById(listeArticleId);
+       const articleTableau = await articleTableau.findById(articleTableauId);
 
-        if (!listeArticle) {
+        if (!articleTableau) {
             const error = new Error("La liste d'articles n'a pas été trouvée.");
             error.statusCode = 404;
             throw error;
         }
 
-        await listeArticle.remove();
+        await articleTableau.remove();
         res.status(204).send();
 
     }
@@ -91,13 +89,13 @@ async function getOrAddArticle(articleName){
 }
 async function checkListExist(idListe){
     try {
-        const liste = await Liste.findById(idListe);
-        if(!liste){
-            const error = new Error("Cette liste n'existe pas");
+        const tableau = await Tableau.findById(idListe);
+        if(!tableau){
+            const error = new Error("Cette tableau n'existe pas");
             error.statusCode = 404;
             throw error;
         }
-        return liste;
+        return tableau;
     } catch (error) {
         throw error;
     }

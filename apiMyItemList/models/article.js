@@ -8,7 +8,7 @@ const articleSchema = new Schema(
         name: {
             type: String,
             required: [true,"échec, pas de nom"],
-            unique: true
+            unique: [true, "le nom de l'article doit être unique"]
         },
 
     },

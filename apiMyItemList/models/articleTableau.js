@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ListeArticleSchema = new Schema(
+const ArticleTableauSchema = new Schema(
     {
         unit_price: {
             type: Number,
@@ -20,9 +20,10 @@ const ListeArticleSchema = new Schema(
             ref: 'Article',
             
         },
-        liste:{
+        
+        tableau:{
             type: Schema.Types.ObjectId,
-            ref: 'Liste',
+            ref: 'Tableau',
 
         },
         description:{
@@ -32,4 +33,4 @@ const ListeArticleSchema = new Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model('ListeArticle', ListeArticleSchema);
+module.exports = mongoose.model('TableauArticles', ArticleTableauSchema);

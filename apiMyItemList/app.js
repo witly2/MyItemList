@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 var hateoasLinker = require('express-hateoas-links');
 
-const listeArticle = require('./routes/listeArticle');
+const tableauArticle = require('./routes/tableauArticle');
 const article = require('./routes/article')
 const config = require('./config');
 const err = require("./controllers/errorController")
@@ -32,7 +32,7 @@ const cors = require("cors");
 
 // Utilisation des routes en tant que middleware
 app.use(article)
-//app.use(listeArticle)
+app.use(tableauArticle)
 app.use(err.get404);
 app.use(err.getErrors)
 
