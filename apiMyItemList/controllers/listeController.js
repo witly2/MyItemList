@@ -24,7 +24,7 @@ exports.getListes = async (req, res, next) =>{
         const listes = await Liste.find()
             .sort({ createdAt: -1 });
 
-        if (!listes) {
+        if (listes.length===0) {
             const error = new Error('Aucune liste trouvé.');
             error.statusCode = 404;
             throw error;

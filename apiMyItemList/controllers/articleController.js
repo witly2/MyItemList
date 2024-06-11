@@ -11,14 +11,15 @@ exports.addListeArticle = async (req, res,next)=>{
     try {
         const article = await getOrAddArticle(name);
 
-        const liste = checkListExist(idListe);
+        const liste = await checkListExist(idListe);
+        
     
         let listeArticle = new ListeArticle({
             unit_price:unit_price,
-            listeId: liste.id,
+            liste: liste,
             quantity: quantity,
             description:description,
-            articleId: article.id
+            article: article
         })
         
         const result = await listeArticle.save();
@@ -37,11 +38,15 @@ exports.getListeArticleByIdListe = async (req, res,next)=>{
         const liste = await checkListExist(listeId);
 
         const result = await ListeArticle
-            .find({ listeId: listeId })
+            .find({ liste: liste })
             .populate({
-                path: 'Article', 
+                name: 'Article', 
             })
             .sort({ createdAt: -1 });
+        
+        for(let a in ListeArticle){
+            a.art
+        }
 
     }
     catch (e) {
@@ -85,12 +90,15 @@ async function getOrAddArticle(articleName){
     
 }
 async function checkListExist(idListe){
-    const liste = await Liste.findById(idListe)
-    
-    if(!liste){
-        const error = new Error("Cette liste n'existe pas");
-        error.statusCode = 404;
+    try {
+        const liste = await Liste.findById(idListe);
+        if(!liste){
+            const error = new Error("Cette liste n'existe pas");
+            error.statusCode = 404;
+            throw error;
+        }
+        return liste;
+    } catch (error) {
         throw error;
     }
-    return liste;
 }

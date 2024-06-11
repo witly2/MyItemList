@@ -15,12 +15,12 @@ const ListeArticleSchema = new Schema(
             type: Number,
             default:0
         },
-        articleId:{
+        article:{
             type: Schema.Types.ObjectId,
             ref: 'Article',
             
         },
-        listeId:{
+        liste:{
             type: Schema.Types.ObjectId,
             ref: 'Liste',
 
