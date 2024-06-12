@@ -1,4 +1,4 @@
-<div class="sidebar  ">
+<div class="sidebar sticky-top ">
     <div class="sidebar-title "  >
         <img class="mx-auto rounded-circle border border-2 border-black bg-white" src="https://robohash.org/manger" alt="Imagen de perfil" width="80" height="80">
     </div>
@@ -43,6 +43,7 @@
         width: 300px;
 
         padding: 20px;
+      
     }
 
     .sidebar-title {

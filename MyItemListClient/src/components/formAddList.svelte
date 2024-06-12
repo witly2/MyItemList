@@ -4,7 +4,7 @@
 
         <label for="task-name">Nom du tableau</label>
 
-        <input type="text" id="task-name" placeholder="Enter task name">
+        <input bind:value={tableName} type="text" id="task-name" placeholder="Entrer un nom">
 
     </div>
 
@@ -12,7 +12,7 @@
 
         <label for="description">Description</label>
 
-        <textarea id="description" placeholder="Enter task description"></textarea>
+        <textarea bind:value={tableDescription} id="description" placeholder="Entrer une description"></textarea>
 
     </div>
 
@@ -20,13 +20,54 @@
 
     <div class="actions d-flex justify-content-around w-25 small">
 
-        <button class="cancel">Annuler</button>
+        <button class="cancel "   on:click={handleCloseForm}>Annuler</button>
 
-        <button class="add-task bg-white border border-1">Ajouter</button>
+        <button class="add-task bg-white border border-1 {disabledBtn}" on:click={addList} >Ajouter</button>
 
     </div>
 
 </div>
+
+<script>
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
+    let tableName = "";
+    let tableDescription = "";
+    let disabledBtn = !tableName || !tableDescription ? "disabled" : "";
+    const addList = async () =>{
+        fetch("http://localhost:3000/addTableau",{
+
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               name:tableName,
+                description: tableDescription
+            }),
+        })
+            .then((response) => {
+                if (response.status === 201) {
+                    return response.json();
+                } else {
+                    throw new Error("Erreur !");
+                }
+            })
+            .then((data) => {
+                console.log('data', data)
+              
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+     const handleCloseForm = ()=>{
+        dispatch('annuler')
+    }
+    
+    
+</script>
 
 <style>
 
@@ -113,10 +154,13 @@
 
 
     .add-task {
-
-
         color: #4CAF50;
-
+    }
+    
+    .add-task:hover{
+        background: #4CAF50;
+        color: white;
+        
     }
 
 </style>

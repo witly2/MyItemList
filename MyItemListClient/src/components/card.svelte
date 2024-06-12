@@ -27,7 +27,7 @@
         width: 200px;
         height: 120px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
+        cursor: pointer;
     }
 
 

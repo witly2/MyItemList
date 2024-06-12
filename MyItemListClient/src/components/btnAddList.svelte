@@ -1,4 +1,4 @@
-<div class="m-3">
+<div role="button" class="m-3" on:click on:keydown tabindex="0">
 
     <div class="card hover-card ">
 
@@ -14,12 +14,14 @@
 </div>
 
 
+
+
 <style>
  
     .card-body {
 
         padding: 20px;
-
+        pointer-events: none;
     }
 
 

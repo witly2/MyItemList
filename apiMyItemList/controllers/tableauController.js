@@ -5,12 +5,12 @@ const Liste = require('../models/tableau');
 const ListeArticle = require('../models/articleTableau');
 
 exports.addListe = async (req, res, next) =>{
-    const name = req.body.name
+    const {name, description} = req.body
     
     try {
         
         
-        const liste = new Liste({name:name});
+        const liste = new Liste({name:name, description:description});
         const result = await liste.save();
         res.location("/liste/" + result.id);
         res.status(201).json(result)

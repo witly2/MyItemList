@@ -12,6 +12,9 @@ const tableauSchema = new Schema(
             maxlength: [50, 'Le nom doit contenir au plus 50 caractères'],
             unique: [true, "le nom de la liste doit être unique"]
         },
+        description:{
+            type: String
+        }
    
 
     },
